@@ -213,4 +213,3 @@ private:
 
 typedef ofxDropdown_<string> ofxDropdown;
 typedef ofxDropdown_<int> ofxIntDropdown;
-typedef ofxDropdown_<ofFile> ofxDirDropdown;

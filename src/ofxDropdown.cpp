@@ -161,10 +161,6 @@ ofxDropdown_<T> * ofxDropdown_<T>::add(const T& value) {
     return add(value, ofToString(value));
 }
 
-template<>
-ofxDropdown_<ofFile> * ofxDropdown_<ofFile>::add(const ofFile& value) {
-    return add(value, value.getFileName());
-}
 //--------------------------------------------------------------
 template<>
 ofxDropdown_<string> * ofxDropdown_<string>::add(const string& value) {
@@ -689,48 +685,5 @@ void ofxDropdown_<T>::addFromDir(ofxDropdown_* currentDD, const string& dirpath,
 {
 	ofLogError("ofxDropdown_<T>::addFromDir" ) << "This function only works with ofxDirDropdown";
 }
-template<>
-void ofxDropdown_<ofFile>::addFromDir(ofxDropdown_* currentDD, const string& dirpath, const vector<string>& allowedExtensions)
-{
-	if(currentDD != nullptr)
-	{
-	
-		ofDirectory dir(dirpath);
-		for(auto& ext: allowedExtensions)
-		{
-			dir.allowExt(ext);
-		}
-		dir.listDir();
-		
-		for(size_t i = 0; i < dir.size(); i++)
-		{
-			ofFile f(dir.getPath(i));
-			if(f.exists())
-			{
-				if(f.isDirectory())
-				{
-					
-					auto dd = newDropdown(f.getBaseName());
-					addFromDir(dd, f.getAbsolutePath(), allowedExtensions);
-				}
-				else
-				{
-	
- 					currentDD->add(f);
-				}
-			}
-		}
-	}
-	else
-	{
-		ofLogError("ofxDropdown_<ofFile>::addFromDir") << "Cannot add dir to null dropdown";
-	}
-}
-
-
-
-
-
-template class ofxDropdown_<ofFile>;
 template class ofxDropdown_<string>;
 template class ofxDropdown_<int>;
